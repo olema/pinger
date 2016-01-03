@@ -16,6 +16,7 @@ logging.basicConfig(format='%(asctime)s %(message)s',
 resources = (('Google DNS', '8.8.8.8'),
              ('ya.ru', '213.180.193.3')
 ,)
+
 def pinging(res):
    command = ['ping', '-c2', '-W1', res[1]]
    return subprocess.call(command)
