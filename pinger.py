@@ -23,11 +23,13 @@ def pinging(res):
 
 def main():
     logging.info('pinger started...')
+    message = ''
     for r in resources:
         print(r)
-        logging.info('pinging {} ({}) .. - {}'.format(r[0], 
-                       r[1],
-                       'Ok' if not pinging(r) else 'not available..'))
+        pingresult = 'Ok' if pinging(r) == 0 else 'not avail'
+        logging.info('{} ({}) -- {}'.format(r[0], r[1], pingresult))
+        message += '{} ({}) -- {}\n'.format(r[0], r[1], pingresult)
+    print(message)
 
 if __name__ == '__main__':
     main()
