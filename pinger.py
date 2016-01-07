@@ -9,6 +9,7 @@ import logging
 import subprocess
 import smtplib
 import time
+import platform
 
 logname = 'logpinger.log'
 
@@ -20,7 +21,8 @@ logging.basicConfig(format='%(asctime)s %(message)s',
                             filename=logname, 
                             level=logging.DEBUG)
 
-resources = (('Google DNS', '8.8.8.8'),
+resources = (('localhost', '127.0.0.1'),
+             ('Google DNS', '8.8.8.8'),
              ('ya.ru', '213.180.193.3'),
              ('nothing host', '192.168.0.5')
 ,)
@@ -40,7 +42,7 @@ def pinging(res):
 
 def main():
     logging.info('pinger started...')
-    message = ''
+    message = platform.platform() + '\n'
     for r in resources:
         print(r)
         pingresult = 'Ok' if pinging(r) == 0 else 'not avail'
