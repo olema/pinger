@@ -7,15 +7,32 @@
 import sys
 import logging
 import subprocess
+import smtplib
+import time
 
+logname = 'logpinger.log'
+
+fromaddr = 'ollo@netbook.home'
+toaddr = 'okibkursk-it@yandex.ru'
+subject = 'Ping results: ' + time.strftime('%a, %d %b %Y %H:%M:%S')
 
 logging.basicConfig(format='%(asctime)s %(message)s', 
-                            filename='logpinger.log', 
+                            filename=logname, 
                             level=logging.DEBUG)
 
 resources = (('Google DNS', '8.8.8.8'),
-             ('ya.ru', '213.180.193.3')
+             ('ya.ru', '213.180.193.3'),
+             ('nothing host', '192.168.0.5')
 ,)
+
+def mail_send(message):
+    msg = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n'.format(fromaddr, toaddr, subject)
+    msg += message
+    server = smtplib.SMTP('localhost')
+    server.sendmail(fromaddr, toaddr, msg)
+    server.quit()
+    print(msg)
+    logging.info('message sended: ' + msg)
 
 def pinging(res):
    command = ['ping', '-c2', '-W1', res[1]]
@@ -29,7 +46,7 @@ def main():
         pingresult = 'Ok' if pinging(r) == 0 else 'not avail'
         logging.info('{} ({}) -- {}'.format(r[0], r[1], pingresult))
         message += '{} ({}) -- {}\n'.format(r[0], r[1], pingresult)
-    print(message)
+    mail_send(message)
 
 if __name__ == '__main__':
     main()
