@@ -31,6 +31,7 @@ def main():
     logging.basicConfig(format='%(asctime)s %(message)s', 
                                 filename=logname, 
                                 level=logging.DEBUG)
+    logging.info('===')
     logging.info('pinger started...')
     resources = (('localhost', '127.0.0.1'),
                  ('Google DNS', '8.8.8.8'),
