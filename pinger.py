@@ -12,8 +12,10 @@ import time
 import platform
 
 def mail_send(fromaddr, toaddr, subject, message):
-    msg = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n'.format(fromaddr, toaddr, subject)
-    msg += message
+    from_header = 'From: {}\r\n'.format(fromaddr)
+    to_header = 'To: {}\r\n'.format(toaddr)
+    subject_header = 'Subject: {}\r\n'.format(subject)
+    msg = '{}{}{}\n{}'.format(from_header, to_header, subject_header, message)
     server = smtplib.SMTP('localhost')
     server.sendmail(fromaddr, toaddr, msg)
     server.quit()
@@ -36,9 +38,10 @@ def main():
     resources = (('localhost', '127.0.0.1'),
                  ('Google DNS', '8.8.8.8'),
                  ('ya.ru', '213.180.193.3'),
-                 ('nothing host', '192.168.0.5')
+                 ('nothing host', '192.168.0.5'),
+                 ('router', '192.168.0.1')
                 ,)
-    message = platform.platform() + '\n'
+    message = platform.platform() + '\n\n'
     for r in resources:
         print(r)
         pingresult = 'Ok' if pinging(r) == 0 else 'not avail'
