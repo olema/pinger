@@ -12,8 +12,8 @@ import time
 import platform
 
 def mail_send(fromaddr, toaddr, subject, message):
-    from_header = 'From: {}\r\n'.format(fromaddr)
-    to_header = 'To: {}\r\n'.format(toaddr)
+    from_header = 'From: router2 <{}>\r\n'.format(fromaddr)
+    to_header = 'To: recipients <{}>\r\n'.format(toaddr)
     subject_header = 'Subject: {}\r\n'.format(subject)
     msg = '{}{}{}\n{}'.format(from_header, to_header, subject_header, message)
     server = smtplib.SMTP('localhost')
@@ -26,8 +26,8 @@ def pinging(res):
    return subprocess.call(command)
 
 def main():
-    fromaddr = 'ollo@netbook.home'
-    toaddr = 'okibkursk-it@yandex.ru'
+    fromaddr = 'semashko@kursktelecom.ru'
+    toaddr = 'matushkin.oleg@gmail.com'
     subject = 'Ping results: ' + time.strftime('%a, %d %b %Y %H:%M:%S')
     logname = 'logpinger.log'
     logging.basicConfig(format='%(asctime)s %(message)s', 
@@ -37,9 +37,9 @@ def main():
     logging.info('pinger started...')
     resources = (('localhost', '127.0.0.1'),
                  ('Google DNS', '8.8.8.8'),
-                 ('ya.ru', '213.180.193.3'),
-                 ('nothing host', '192.168.0.5'),
-                 ('router', '192.168.0.1')
+                 ('Server HP', '192.168.0.2'),
+                 ('router ubuntu', '192.168.0.1'),
+                 ('router wi-fi', '192.168.0.254')
                 ,)
     message = platform.platform() + '\n\n'
     for r in resources:
