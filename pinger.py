@@ -10,6 +10,7 @@ import subprocess
 import smtplib
 import time
 import platform
+import os
 
 def mail_send(fromaddr, toaddr, subject, message):
     from_header = 'From: router2 <{}>\r\n'.format(fromaddr)
@@ -29,7 +30,7 @@ def main():
     fromaddr = 'semashko@kursktelecom.ru'
     toaddr = 'matushkin.oleg@gmail.com'
     subject = 'Ping results: ' + time.strftime('%a, %d %b %Y %H:%M:%S')
-    logname = 'logpinger.log'
+    logname = os.path.dirname(sys.argv[0]) + os.sep + 'logpinger.log'
     logging.basicConfig(format='%(asctime)s %(message)s', 
                                 filename=logname, 
                                 level=logging.DEBUG)
@@ -38,9 +39,10 @@ def main():
     resources = (('localhost', '127.0.0.1'),
                  ('Google DNS', '8.8.8.8'),
                  ('Server HP', '192.168.0.2'),
+                 ('NAS', '192.168.0.3'),
                  ('router ubuntu', '192.168.0.1'),
-                 ('router wi-fi', '192.168.0.254')
-                ,)
+                 ('router wi-fi', '192.168.0.254'),
+                )
     message = platform.platform() + '\n\n'
     for r in resources:
         print(r)
