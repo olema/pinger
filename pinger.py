@@ -14,7 +14,8 @@ import os
 
 def mail_send(fromaddr, toaddr, subject, message):
     from_header = 'From: router2 <{}>\r\n'.format(fromaddr)
-    to_header = 'To: recipients <{}>\r\n'.format(toaddr)
+    to_header = 'To: recipients <{}>,<{}>\r\n'.format(toaddr[0],
+                                                      toaddr[1])
     subject_header = 'Subject: {}\r\n'.format(subject)
     msg = '{}{}{}\n{}'.format(from_header, to_header, subject_header, message)
     server = smtplib.SMTP('localhost')
@@ -28,7 +29,7 @@ def pinging(res):
 
 def main():
     fromaddr = 'semashko@kursktelecom.ru'
-    toaddr = 'matushkin.oleg@gmail.com'
+    toaddr = ['matushkin.oleg@gmail.com', 'okibkursk-it@yandex.ru']
     subject = 'Ping results: ' + time.strftime('%a, %d %b %Y %H:%M:%S')
     logname = os.path.dirname(sys.argv[0]) + os.sep + 'logpinger.log'
     logging.basicConfig(format='%(asctime)s %(message)s', 
@@ -42,6 +43,7 @@ def main():
                  ('NAS', '192.168.0.3'),
                  ('router ubuntu', '192.168.0.1'),
                  ('router wi-fi', '192.168.0.254'),
+                 ('kursktelecom gate', '178.249.242.1'),
                 )
     message = platform.platform() + '\n\n'
     for r in resources:
