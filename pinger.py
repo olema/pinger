@@ -13,9 +13,10 @@ import platform
 import os
 
 def mail_send(fromaddr, toaddr, subject, message):
+    '''Функция отправки письма'''
     from_header = 'From: router2 <{}>\r\n'.format(fromaddr)
-    to_header = 'To: recipients <{}>,<{}>\r\n'.format(toaddr[0],
-                                                      toaddr[1])
+    string_toaddr = ','.join(['<' + i + '>' for i in toaddr])
+    to_header = 'To: recipients {}\r\n'.format(string_toaddr)
     subject_header = 'Subject: {}\r\n'.format(subject)
     msg = '{}{}{}\n{}'.format(from_header, to_header, subject_header, message)
     server = smtplib.SMTP('localhost')
@@ -24,7 +25,7 @@ def mail_send(fromaddr, toaddr, subject, message):
     print(msg)
 
 def pinging(res):
-   command = ['ping', '-c2', '-W1', res[1]]
+   command = ['ping', '-c2', '-W5', res[1]]
    return subprocess.call(command)
 
 def main():
@@ -44,6 +45,7 @@ def main():
                  ('router ubuntu', '192.168.0.1'),
                  ('router wi-fi', '192.168.0.254'),
                  ('kursktelecom gate', '178.249.242.1'),
+                 ('avant gate', '1.8.156.1'),
                 )
     message = platform.platform() + '\n\n'
     for r in resources:
